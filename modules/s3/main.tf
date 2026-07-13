@@ -2,7 +2,7 @@ resource "aws_s3_bucket" "state" {
   bucket = var.bucket_name
 
   tags = {
-    Name        = "--state"
+    Name        = "${var.project}-${var.environment}-state"
     Environment = var.environment
     Purpose     = "terraform-remote-state"
   }
