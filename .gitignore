@@ -5,3 +5,5 @@
 .terraform.lock.hcl
 crash.log
 override.tf
+
+*.pem
