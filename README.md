@@ -24,7 +24,7 @@ The goal is to understand the change, retain evidence, evaluate the risk and res
 
 ## Architecture
 
-![PROJECT RECONCILE Architecture](docs/images/project-reconcile-architecture.png)
+![PROJECT RECONCILE Architecture](docs/images/project-reconcile-architecture.jpeg)
 
 The diagram represents the target architecture for PROJECT RECONCILE.
 
@@ -382,3 +382,4 @@ The next challenge is changing that infrastructure outside Terraform and proving
 PROJECT RECONCILE is actively under development as part of TerraWeek.
 
 **Detect → Preserve Evidence → Evaluate → Remediate → Verify**
+
