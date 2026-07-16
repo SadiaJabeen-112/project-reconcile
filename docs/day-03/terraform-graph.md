@@ -1,6 +1,9 @@
 # Terraform Dependency Graph, Day 03
 
+![Terraform Dependency Graph](images/terraform-graph-color.png)
+
 Generated with terraform graph. Raw output is in terraform-graph.dot.
+
 
 ## What it shows
 
