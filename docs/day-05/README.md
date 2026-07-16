@@ -32,6 +32,16 @@ Registry modules, or modules sourced from a separate Git repository, can be pinn
 
 For PROJECT RECONCILE at its current single project stage, local path sourcing is the appropriate choice. Versioning would be revisited if these modules were ever extracted into a separate, shared repository.
 
+## Provider configuration and authentication
+
+The AWS provider has been explicitly configured since Day 01, pinned to version 5.x in providers.tf, with the region parameterized through a variable rather than hardcoded.
+
+Authentication is not hardcoded anywhere in the Terraform configuration. Locally, Terraform resolves AWS credentials through the standard provider credential chain, in this case an AWS CLI profile configured on the local machine. No access keys exist anywhere in the codebase.
+
+This project is intentionally single provider, AWS only. Azure or Google Cloud providers were not introduced, since PROJECT RECONCILE is scoped around AWS infrastructure specifically, not multi cloud provider comparison.
+
+Authentication in an automated context, such as a CI/CD pipeline, cannot rely on a local CLI profile. That distinction becomes relevant in Day 06, where GitHub Actions authenticates using credentials injected as encrypted repository secrets, a separate authentication path from the local one, using the same provider configuration.
+
 ## Why this matters for PROJECT RECONCILE
 
 A project meant to detect and reconcile drift needs its own foundation to be dependable and consistent. Inconsistent module design, where some modules are reusable and others are not, is its own quiet form of technical debt. Fixing it now, while the project is still small, is far cheaper than fixing it after six more days of code are built on top of the inconsistency.
