@@ -19,6 +19,10 @@ resource "aws_security_group" "ec2_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  lifecycle {
+    create_before_destroy = true
+  }
+
   tags = {
     Name        = "reconcile-ec2-sg-${var.environment}"
     Project     = "RECONCILE"
