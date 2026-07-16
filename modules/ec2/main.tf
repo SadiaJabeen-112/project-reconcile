@@ -22,10 +22,20 @@ resource "aws_instance" "reconcile_ec2" {
   key_name                    = var.key_name
   associate_public_ip_address = true
 
+  user_data = <<-EOF
+    #!/bin/bash
+    yum update -y
+    echo "PROJECT RECONCILE EC2 instance provisioned on $(date)" >> /var/log/reconcile-bootstrap.log
+  EOF
+
   root_block_device {
     volume_size = 30
     volume_type = "gp3"
     encrypted   = true
+  }
+
+  lifecycle {
+    create_before_destroy = true
   }
 
   tags = {
