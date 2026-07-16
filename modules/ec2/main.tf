@@ -39,9 +39,9 @@ resource "aws_instance" "reconcile_ec2" {
   ignore_changes        = [ami]
 }
 
-  tags = {
-    Name        = "reconcile-ec2-${var.environment}"
-    Project     = "RECONCILE"
+ tags = {
+    Name        = "${var.project}-ec2-${var.environment}"
+    Project     = upper(var.project)
     Environment = var.environment
   }
 }

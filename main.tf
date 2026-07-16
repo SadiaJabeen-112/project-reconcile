@@ -15,6 +15,7 @@ module "iam" {
   source = "./modules/iam"
 
   environment = var.environment
+  project     = "reconcile"
 }
 
 module "security_group" {
@@ -23,6 +24,7 @@ module "security_group" {
   vpc_id           = module.vpc.vpc_id
   allowed_ssh_cidr = var.allowed_ssh_cidr
   environment      = var.environment
+  project          = "reconcile"
 }
 module "ec2" {
   source = "./modules/ec2"
@@ -33,4 +35,5 @@ module "ec2" {
   key_name               = "reconcile-key"
   instance_type          = var.instance_type
   environment            = var.environment
+  project                = "reconcile"
 }

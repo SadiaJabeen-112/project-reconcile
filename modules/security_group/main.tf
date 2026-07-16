@@ -1,6 +1,6 @@
 resource "aws_security_group" "ec2_sg" {
-  name        = "reconcile-ec2-sg-${var.environment}"
-  description = "Security group for RECONCILE EC2 instance - SSH restricted to a single IP"
+  name        = "${var.project}-ec2-sg-${var.environment}"
+  description = "Security group for ${upper(var.project)} EC2 instance - SSH restricted to a single IP"
   vpc_id      = var.vpc_id
 
   ingress {
@@ -19,13 +19,9 @@ resource "aws_security_group" "ec2_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  lifecycle {
-    create_before_destroy = true
-  }
-
   tags = {
-    Name        = "reconcile-ec2-sg-${var.environment}"
-    Project     = "RECONCILE"
+    Name        = "${var.project}-ec2-sg-${var.environment}"
+    Project     = upper(var.project)
     Environment = var.environment
   }
 }
