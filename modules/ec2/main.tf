@@ -35,8 +35,9 @@ resource "aws_instance" "reconcile_ec2" {
   }
 
   lifecycle {
-    create_before_destroy = true
-  }
+  create_before_destroy = true
+  ignore_changes        = [ami]
+}
 
   tags = {
     Name        = "reconcile-ec2-${var.environment}"
