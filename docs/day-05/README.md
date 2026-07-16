@@ -22,6 +22,16 @@ The root main.tf was updated to explicitly pass project into every module call, 
 
 terraform plan after the change showed no changes. This confirms the refactor was purely structural. Resource names, tags, and behavior are identical, but the module boundary is now consistent across all five modules instead of two.
 
+## Module composition and versioning
+
+The root main.tf composes all five modules together, vpc, s3, iam, security_group, and ec2, each with clear inputs and outputs passed between them.
+
+Versioning was not implemented this stage. All modules are currently referenced by local path, for example source equals ./modules/vpc, which has no concept of a version, it always reflects whatever code currently exists in that folder.
+
+Registry modules, or modules sourced from a separate Git repository, can be pinned to a specific version, so consumers of the module are protected from unexpected changes when the module source is updated. That becomes valuable once a module is shared across multiple projects or teams.
+
+For PROJECT RECONCILE at its current single project stage, local path sourcing is the appropriate choice. Versioning would be revisited if these modules were ever extracted into a separate, shared repository.
+
 ## Why this matters for PROJECT RECONCILE
 
 A project meant to detect and reconcile drift needs its own foundation to be dependable and consistent. Inconsistent module design, where some modules are reusable and others are not, is its own quiet form of technical debt. Fixing it now, while the project is still small, is far cheaper than fixing it after six more days of code are built on top of the inconsistency.
