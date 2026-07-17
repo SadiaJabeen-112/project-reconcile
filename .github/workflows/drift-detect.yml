@@ -13,6 +13,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Debug working directory
+        run: |
+          pwd
+          ls -la
+          echo "--- backend.tf content ---"
+          cat backend.tf
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
