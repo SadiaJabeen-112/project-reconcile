@@ -13,13 +13,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Debug working directory
-        run: |
-          pwd
-          ls -la
-          echo "--- backend.tf content ---"
-          cat backend.tf
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -34,9 +27,6 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
-
-      - name: Terraform State Check
-        run: terraform state list
 
       - name: Terraform Plan
         id: plan
@@ -53,10 +43,13 @@ jobs:
           retention-days: 30
 
       - name: Flag drift if changes detected
-        if: contains(steps.plan.outputs.stdout, 'Plan:') || contains(steps.plan.outputs.stdout, 'No changes')
         run: |
-          if grep -q "No changes" plan_output.txt; then
+          if grep -qE "Plan: 0 to add, 0 to change, 0 to destroy" plan_output.txt; then
+            echo "No drift detected."
+          elif grep -q "No changes." plan_output.txt; then
             echo "No drift detected."
           else
             echo "::warning::Drift detected in infrastructure. Review the plan artifact."
+            SUMMARY=$(grep -E "^Plan:" plan_output.txt || echo "unable to parse plan summary")
+            echo "Summary: $SUMMARY"
           fi
