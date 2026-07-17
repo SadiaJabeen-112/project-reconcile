@@ -1,4 +1,4 @@
-﻿# PROJECT RECONCILE
+# PROJECT RECONCILE
 
 ### Terraform Drift Detection and Controlled Remediation on AWS
 
@@ -16,7 +16,7 @@ The infrastructure may continue running, but the environment no longer matches t
 
 PROJECT RECONCILE is being built around that problem.
 
-> Detect → Preserve Evidence → Evaluate → Remediate → Verify
+> Detect ? Preserve Evidence ? Evaluate ? Remediate ? Verify
 
 The goal is not to run terraform apply every time a difference appears.
 
@@ -34,17 +34,17 @@ The AWS infrastructure baseline is already deployed. Drift detection, evidence c
 
 Infrastructure changes outside Terraform more often than most teams would like to admit.
 
-• Emergency production fixes
+� Emergency production fixes
 
-• Manual AWS Console changes
+� Manual AWS Console changes
 
-• Security Group updates
+� Security Group updates
 
-• Route modifications
+� Route modifications
 
-• Resource configuration changes
+� Resource configuration changes
 
-• Temporary troubleshooting changes that are never reverted
+� Temporary troubleshooting changes that are never reverted
 
 Terraform may eventually detect the difference.
 
@@ -68,11 +68,11 @@ PROJECT RECONCILE treats drift detection as the beginning of the process, not th
 
 | Stage | Responsibility |
 | :--- | :--- |
-| 🔎 Detect | Compare Terraform configuration with infrastructure observed in AWS |
-| 📁 Preserve Evidence | Capture Terraform plan output before infrastructure is changed |
-| 🛡️ Evaluate | Assess the detected change against policy and approval controls |
-| 🔄 Remediate | Reconcile approved changes through Terraform |
-| ✅ Verify | Confirm that infrastructure has returned to the approved state |
+| ?? Detect | Compare Terraform configuration with infrastructure observed in AWS |
+| ?? Preserve Evidence | Capture Terraform plan output before infrastructure is changed |
+| ??? Evaluate | Assess the detected change against policy and approval controls |
+| ?? Remediate | Reconcile approved changes through Terraform |
+| ? Verify | Confirm that infrastructure has returned to the approved state |
 
 ## Current AWS Baseline
 
@@ -109,32 +109,32 @@ Drift becomes visible when the infrastructure running in AWS no longer matches t
 ## Repository Structure
 
     project-reconcile/
-    │
-    ├── main.tf
-    ├── variables.tf
-    ├── outputs.tf
-    ├── providers.tf
-    │
-    ├── modules/
-    │   ├── vpc/
-    │   ├── s3/
-    │   ├── security_group/
-    │   ├── iam/
-    │   └── ec2/
-    │
-    ├── opa/
-    ├── scripts/
-    │
-    ├── .github/
-    │   └── workflows/
-    │
-    ├── docs/
-    │   ├── images/
-    │   ├── day-01/
-    │   ├── day-02/
-    │   └── day-03/
-    │
-    └── README.md
+    �
+    +-- main.tf
+    +-- variables.tf
+    +-- outputs.tf
+    +-- providers.tf
+    �
+    +-- modules/
+    �   +-- vpc/
+    �   +-- s3/
+    �   +-- security_group/
+    �   +-- iam/
+    �   +-- ec2/
+    �
+    +-- opa/
+    +-- scripts/
+    �
+    +-- .github/
+    �   +-- workflows/
+    �
+    +-- docs/
+    �   +-- images/
+    �   +-- day-01/
+    �   +-- day-02/
+    �   +-- day-03/
+    �
+    +-- README.md
 
 The Terraform modules are separated by infrastructure responsibility.
 
@@ -160,21 +160,21 @@ Each day's Terraform scope is being applied to the same project instead of being
 
 The first day established the direction of the project.
 
-• Defined the PROJECT RECONCILE architecture
+� Defined the PROJECT RECONCILE architecture
 
-• Verified Terraform CLI
+� Verified Terraform CLI
 
-• Verified AWS CLI authentication
+� Verified AWS CLI authentication
 
-• Created the repository structure
+� Created the repository structure
 
-• Configured the AWS provider
+� Configured the AWS provider
 
-• Added Terraform and provider version constraints
+� Added Terraform and provider version constraints
 
-• Parameterized the AWS region and environment
+� Parameterized the AWS region and environment
 
-• Protected Terraform state and working files from source control
+� Protected Terraform state and working files from source control
 
 No AWS resources were deployed.
 
@@ -184,27 +184,27 @@ The objective was to establish a clean Terraform foundation before infrastructur
 
 The second day introduced the first AWS infrastructure design.
 
-• Built a reusable VPC module
+� Built a reusable VPC module
 
-• Defined the 10.0.0.0/16 network
+� Defined the 10.0.0.0/16 network
 
-• Created the public subnet layer in us-east-1a
+� Created the public subnet layer in us-east-1a
 
-• Attached an Internet Gateway
+� Attached an Internet Gateway
 
-• Configured the default 0.0.0.0/0 route
+� Configured the default 0.0.0.0/0 route
 
-• Associated the route table with the public subnet
+� Associated the route table with the public subnet
 
-• Built the S3 state storage module
+� Built the S3 state storage module
 
-• Enabled S3 versioning
+� Enabled S3 versioning
 
-• Enabled AES256 server side encryption
+� Enabled AES256 server side encryption
 
-• Blocked public access to the state bucket
+� Blocked public access to the state bucket
 
-• Exposed infrastructure outputs for downstream modules
+� Exposed infrastructure outputs for downstream modules
 
 Terraform produced the following plan:
 
@@ -218,21 +218,21 @@ The plan was reviewed as infrastructure intent before execution.
 
 Day 03 moved PROJECT RECONCILE from planning to real AWS deployment.
 
-• Created the EC2 Security Group
+� Created the EC2 Security Group
 
-• Restricted SSH to the configured operator IP
+� Restricted SSH to the configured operator IP
 
-• Created the EC2 IAM role
+� Created the EC2 IAM role
 
-• Created the IAM instance profile
+� Created the IAM instance profile
 
-• Attached AmazonSSMManagedInstanceCore
+� Attached AmazonSSMManagedInstanceCore
 
-• Added AWS Systems Manager as an alternative management path
+� Added AWS Systems Manager as an alternative management path
 
-• Created the EC2 module
+� Created the EC2 module
 
-• Deployed Amazon Linux 2023
+� Deployed Amazon Linux 2023
 
 The first terraform apply failed.
 
@@ -260,53 +260,44 @@ The next stage focuses on Terraform state as an infrastructure control component
 
 Planned work includes:
 
-• Move the project to remote Terraform state
+� Move the project to remote Terraform state
 
-• Configure the S3 backend
+� Configure the S3 backend
 
-• Introduce state locking
+� Introduce state locking
 
-• Verify state consistency
+� Verify state consistency
 
-• Test concurrent execution protection
+� Test concurrent execution protection
 
 The state layer is particularly important to PROJECT RECONCILE because drift detection depends on the relationship between Terraform configuration, Terraform state and actual AWS infrastructure.
 
 ## Day 05 | Reusable Infrastructure
 
-Day 05 will focus on improving the Terraform design as the project grows.
+Day 05 was scoped down. Instead of a full module refactor, the work focused on one concrete, verifiable improvement: auditing every variable across all five modules (vpc, security_group, ec2, iam, s3) to confirm each one has a clear description.
 
-Planned work includes:
+This matters because undocumented variables are the most common reason a module becomes hard to reuse later. A missing description means the next person touching the module has to read the resource block to understand what a variable does.
 
-• Review existing module boundaries
-
-• Refine module inputs and outputs
-
-• Remove unnecessary infrastructure coupling
-
-• Improve provider configuration
-
-• Validate module reuse across environments
-
-The objective is to keep the infrastructure reusable without hiding important resource relationships behind unnecessary abstraction.
+Result: every variable across every module already had a description. The audit confirmed the modules are reuse-ready on this dimension rather than assuming so.
 
 ## Day 06 | Drift Detection Automation
 
-Day 06 moves the project toward its primary purpose.
+Day 06 moved the project toward its primary purpose: an automated pipeline that runs terraform plan on a schedule and preserves the output as evidence.
 
-Planned work includes:
+What was built:
 
-• Introduce scheduled drift detection
+- A dedicated reconcile-ci IAM user, scoped to only the read permissions terraform plan actually needs, no write or apply access
+- A GitHub Actions workflow (.github/workflows/drift-detect.yml) that runs terraform plan every 6 hours and on manual trigger
+- Plan output uploaded as a downloadable artifact on every run, this is the evidence preservation piece
+- Drift-flagging logic that checks the actual Plan: summary line, not a fragile string match, and raises a GitHub Actions warning when real changes are detected
 
-• Execute terraform plan through GitHub Actions
+What went wrong, and what it caught:
 
-• Detect infrastructure differences
+The first live run showed Terraform planning to recreate all 14 resources from scratch. Tracing it back, backend.tf had been committed to GitHub as an empty file. The real S3 backend configuration only ever existed locally, so every CI run was silently defaulting to local state instead of the real one. Locally, terraform commands looked fine because the real file was sitting on disk, git just never had the real version.
 
-• Preserve Terraform plan output
+Fixed by committing the actual backend.tf content. Along the way, a second gap surfaced: the reconcile-ci IAM policy was missing s3:GetBucketPolicy and related read permissions needed during a real state refresh, added those too.
 
-• Store plan evidence as a pipeline artifact
-
-• Prepare detected changes for policy evaluation
+Once both were fixed, the pipeline connected to the real backend, read the actual state, and correctly flagged a real (expected) drift on the EC2 instance's dynamic public IP and DNS, exactly what a drift detector is supposed to do.
 
 This stage begins the automated PROJECT RECONCILE workflow.
 
@@ -316,58 +307,52 @@ The final TerraWeek stage connects the complete reconciliation flow.
 
 Planned work includes:
 
-• Evaluate detected drift against policy
-
-• Introduce OPA or Conftest policy checks
-
-• Approve or block remediation
-
-• Execute controlled terraform apply
-
-• Verify infrastructure after remediation
-
-• Preserve the reconciliation result
+Evaluate detected drift against policy
+Introduce OPA or Conftest policy checks
+Approve or block remediation
+Execute controlled terraform apply
+Verify infrastructure after remediation
+Preserve the reconciliation result
 
 The intended workflow is:
 
-> Out of Band Change → Detect Drift → Preserve Evidence → Evaluate Policy → Approve → Remediate → Verify
-
+Out of Band Change -> Detect Drift -> Preserve Evidence -> Evaluate Policy -> Approve -> Remediate -> Verify
 ## Security Approach
 
 Security controls are being included in the Terraform design from the beginning.
 
-• SSH is restricted to the configured operator IP
+� SSH is restricted to the configured operator IP
 
-• Port 22 is not exposed to 0.0.0.0/0
+� Port 22 is not exposed to 0.0.0.0/0
 
-• AWS Systems Manager provides an alternative management path
+� AWS Systems Manager provides an alternative management path
 
-• EC2 permissions are assigned through an IAM instance role
+� EC2 permissions are assigned through an IAM instance role
 
-• Terraform state storage uses versioning
+� Terraform state storage uses versioning
 
-• Server side encryption uses AES256
+� Server side encryption uses AES256
 
-• Public access to the state bucket is blocked
+� Public access to the state bucket is blocked
 
-• Terraform state files are excluded from source control
+� Terraform state files are excluded from source control
 
 ## Project Status
 
 | Capability | Status |
 | :--- | :---: |
-| Project Foundation | ✅ Complete |
-| AWS Network Foundation | ✅ Complete |
-| State Storage Foundation | ✅ Complete |
-| EC2 Compute Layer | ✅ Complete |
-| IAM and SSM Integration | ✅ Complete |
-| AWS Infrastructure Baseline | ✅ Complete |
-| Remote State and Locking | ⏳ Next |
-| Drift Detection | 📋 Planned |
-| Evidence Preservation | 📋 Planned |
-| Policy Evaluation | 📋 Planned |
-| Controlled Remediation | 📋 Planned |
-| End to End Verification | 📋 Planned |
+| Project Foundation | ? Complete |
+| AWS Network Foundation | ? Complete |
+| State Storage Foundation | ? Complete |
+| EC2 Compute Layer | ? Complete |
+| IAM and SSM Integration | ? Complete |
+| AWS Infrastructure Baseline | ? Complete |
+| Remote State and Locking | Complete |
+| Drift Detection | Complete |
+| Evidence Preservation | Complete |
+| Policy Evaluation | ?? Planned |
+| Controlled Remediation | ?? Planned |
+| End to End Verification | ?? Planned |
 
 ## What Comes Next
 
@@ -381,5 +366,5 @@ The next challenge is changing that infrastructure outside Terraform and proving
 
 PROJECT RECONCILE is actively under development as part of TerraWeek.
 
-**Detect → Preserve Evidence → Evaluate → Remediate → Verify**
+**Detect ? Preserve Evidence ? Evaluate ? Remediate ? Verify**
 
