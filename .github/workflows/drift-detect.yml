@@ -28,6 +28,9 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
+      - name: Terraform State Check
+        run: terraform state list
+
       - name: Terraform Plan
         id: plan
         run: terraform plan -no-color -out=tfplan.binary | tee plan_output.txt
