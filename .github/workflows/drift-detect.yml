@@ -47,7 +47,11 @@ jobs:
 
       - name: Install Conftest
         run: |
-          curl -sL https://github.com/open-policy-agent/conftest/releases/latest/download/conftest_Linux_x86_64.tar.gz -o conftest.tar.gz
+          URL=$(curl -s https://api.github.com/repos/open-policy-agent/conftest/releases/latest \
+            | grep "browser_download_url.*Linux_x86_64.tar.gz" \
+            | cut -d '"' -f 4)
+          echo "Downloading: $URL"
+          curl -sL "$URL" -o conftest.tar.gz
           tar xzf conftest.tar.gz
           sudo mv conftest /usr/local/bin
 
@@ -60,6 +64,7 @@ jobs:
         run: |
           if grep -q "No changes." plan_output.txt; then
             echo "No drift detected."
+ 
           else
             echo "::warning::Drift detected in infrastructure. Review the plan artifact."
             SUMMARY=$(grep -E "^Plan:" plan_output.txt || echo "unable to parse plan summary")
