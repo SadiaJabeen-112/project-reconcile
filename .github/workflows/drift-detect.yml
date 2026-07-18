@@ -30,7 +30,9 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color -out=tfplan.binary | tee plan_output.txt
+        run: |
+          terraform plan -no-color -out=tfplan.binary | tee plan_output.txt
+          terraform show -json tfplan.binary > plan.json
         continue-on-error: true
 
       - name: Upload plan as evidence artifact
@@ -40,16 +42,33 @@ jobs:
           path: |
             plan_output.txt
             tfplan.binary
+            plan.json
           retention-days: 30
 
-      - name: Flag drift if changes detected
+      - name: Install Conftest
         run: |
-          if grep -qE "Plan: 0 to add, 0 to change, 0 to destroy" plan_output.txt; then
-            echo "No drift detected."
-          elif grep -q "No changes." plan_output.txt; then
+          curl -sL https://github.com/open-policy-agent/conftest/releases/latest/download/conftest_Linux_x86_64.tar.gz -o conftest.tar.gz
+          tar xzf conftest.tar.gz
+          sudo mv conftest /usr/local/bin
+
+      - name: Evaluate policy
+        id: policy
+        run: conftest test --policy opa/policies --all-namespaces plan.json
+        continue-on-error: true
+
+      - name: Flag drift and policy result
+        run: |
+          if grep -q "No changes." plan_output.txt; then
             echo "No drift detected."
           else
             echo "::warning::Drift detected in infrastructure. Review the plan artifact."
             SUMMARY=$(grep -E "^Plan:" plan_output.txt || echo "unable to parse plan summary")
             echo "Summary: $SUMMARY"
+          fi
+
+          if [ "${{ steps.policy.outcome }}" == "failure" ]; then
+            echo "::error::Policy evaluation failed. Manual approval required before remediation."
+            exit 1
+          else
+            echo "Policy evaluation passed. Changes are auto approved or no sensitive resources affected."
           fi
