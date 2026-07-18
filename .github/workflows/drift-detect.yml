@@ -5,6 +5,10 @@ on:
     - cron: "0 */6 * * *"
   workflow_dispatch:
 
+concurrency:
+  group: terraform-state-drift-detect
+  cancel-in-progress: false
+
 jobs:
   drift-check:
     runs-on: ubuntu-latest
@@ -62,9 +66,13 @@ jobs:
 
       - name: Flag drift and policy result
         run: |
+          if [ "${{ steps.plan.outcome }}" == "failure" ]; then
+            echo "::error::Terraform plan failed before it could be evaluated. Check the Terraform Plan step logs (state lock, auth, or backend issue). No policy decision was made."
+            exit 1
+          fi
+
           if grep -q "No changes." plan_output.txt; then
             echo "No drift detected."
- 
           else
             echo "::warning::Drift detected in infrastructure. Review the plan artifact."
             SUMMARY=$(grep -E "^Plan:" plan_output.txt || echo "unable to parse plan summary")
