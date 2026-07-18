@@ -6,6 +6,7 @@ resource "aws_vpc" "main" {
   tags = {
     Name        = "${var.project}-${var.environment}-vpc"
     Environment = var.environment
+    TestApply   = "day7-gate-test"
   }
 }
 
