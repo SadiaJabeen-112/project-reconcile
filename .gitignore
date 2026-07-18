@@ -12,3 +12,6 @@ full_log*.txt
 plan_output.txt
 tfplan.binary
 test-download.json
+
+reconcile-ci-policy-updated.json
+ci-policy-update.json

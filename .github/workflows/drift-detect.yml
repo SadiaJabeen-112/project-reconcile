@@ -37,7 +37,7 @@ jobs:
       - name: Terraform Plan
         id: plan
         run: |
-          terraform plan -no-color -out=tfplan.binary | tee plan_output.txt
+          terraform plan -lock-timeout=60s -no-color -out=tfplan.binary | tee plan_output.txt
           terraform show -json tfplan.binary > plan.json
         continue-on-error: true
 
@@ -123,11 +123,11 @@ jobs:
           name: terraform-plan-${{ github.run_number }}
 
       - name: Terraform Apply (exact approved plan)
-        run: terraform apply -auto-approve "tfplan.binary"
+        run: terraform apply -lock-timeout=60s -auto-approve "tfplan.binary"
 
       - name: Post-apply verification plan
         run: |
-          terraform plan -no-color -detailed-exitcode -out=verify.binary | tee verify_output.txt || true
+          terraform plan -lock-timeout=60s -no-color -detailed-exitcode -out=verify.binary | tee verify_output.txt || true
           if grep -q "No changes." verify_output.txt; then
             echo "Verification passed: reconciled state matches configuration."
           else
