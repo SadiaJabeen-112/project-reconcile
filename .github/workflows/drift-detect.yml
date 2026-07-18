@@ -1,4 +1,4 @@
-name: Terraform Drift Detection
+﻿name: Terraform Drift Detection
 
 on:
   schedule:
@@ -12,6 +12,8 @@ concurrency:
 jobs:
   drift-check:
     runs-on: ubuntu-latest
+    outputs:
+      has-drift: ${{ steps.check-drift.outputs.has_drift }}
 
     steps:
       - name: Checkout repository
@@ -65,18 +67,22 @@ jobs:
         continue-on-error: true
 
       - name: Flag drift and policy result
+        id: check-drift
         run: |
           if [ "${{ steps.plan.outcome }}" == "failure" ]; then
             echo "::error::Terraform plan failed before it could be evaluated. Check the Terraform Plan step logs (state lock, auth, or backend issue). No policy decision was made."
+            echo "has_drift=false" >> "$GITHUB_OUTPUT"
             exit 1
           fi
 
           if grep -q "No changes." plan_output.txt; then
             echo "No drift detected."
+            echo "has_drift=false" >> "$GITHUB_OUTPUT"
           else
             echo "::warning::Drift detected in infrastructure. Review the plan artifact."
             SUMMARY=$(grep -E "^Plan:" plan_output.txt || echo "unable to parse plan summary")
             echo "Summary: $SUMMARY"
+            echo "has_drift=true" >> "$GITHUB_OUTPUT"
           fi
 
           if [ "${{ steps.policy.outcome }}" == "failure" ]; then
@@ -85,3 +91,54 @@ jobs:
           else
             echo "Policy evaluation passed. Changes are auto approved or no sensitive resources affected."
           fi
+
+  apply:
+    needs: drift-check
+    if: needs.drift-check.outputs.has-drift == 'true'
+    runs-on: ubuntu-latest
+    environment: production-apply
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.15.8
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Download plan artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: terraform-plan-${{ github.run_number }}
+
+      - name: Terraform Apply (exact approved plan)
+        run: terraform apply -auto-approve "tfplan.binary"
+
+      - name: Post-apply verification plan
+        run: |
+          terraform plan -no-color -detailed-exitcode -out=verify.binary | tee verify_output.txt || true
+          if grep -q "No changes." verify_output.txt; then
+            echo "Verification passed: reconciled state matches configuration."
+          else
+            echo "::warning::Verification found remaining drift after apply. Review verify_output.txt."
+          fi
+
+      - name: Upload post-apply evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: post-apply-verification-${{ github.run_number }}
+          path: |
+            verify_output.txt
+            verify.binary
+          retention-days: 30
