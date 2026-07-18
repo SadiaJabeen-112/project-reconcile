@@ -34,17 +34,17 @@ The AWS infrastructure baseline is already deployed. Drift detection, evidence c
 
 Infrastructure changes outside Terraform more often than most teams would like to admit.
 
-• Emergency production fixes
+--- Emergency production fixes
 
-• Manual AWS Console changes
+--- Manual AWS Console changes
 
-• Security Group updates
+--- Security Group updates
 
-• Route modifications
+--- Route modifications
 
-• Resource configuration changes
+--- Resource configuration changes
 
-• Temporary troubleshooting changes that are never reverted
+--- Temporary troubleshooting changes that are never reverted
 
 Terraform may eventually detect the difference.
 
@@ -109,31 +109,31 @@ Drift becomes visible when the infrastructure running in AWS no longer matches t
 ## Repository Structure
 
     project-reconcile/
-    ¦
+    ---
     +-- main.tf
     +-- variables.tf
     +-- outputs.tf
     +-- providers.tf
-    ¦
+    ---
     +-- modules/
-    ¦   +-- vpc/
-    ¦   +-- s3/
-    ¦   +-- security_group/
-    ¦   +-- iam/
-    ¦   +-- ec2/
-    ¦
+    ---   +-- vpc/
+    ---   +-- s3/
+    ---   +-- security_group/
+    ---   +-- iam/
+    ---   +-- ec2/
+    ---
     +-- opa/
     +-- scripts/
-    ¦
+    ---
     +-- .github/
-    ¦   +-- workflows/
-    ¦
+    ---   +-- workflows/
+    ---
     +-- docs/
-    ¦   +-- images/
-    ¦   +-- day-01/
-    ¦   +-- day-02/
-    ¦   +-- day-03/
-    ¦
+    ---   +-- images/
+    ---   +-- day-01/
+    ---   +-- day-02/
+    ---   +-- day-03/
+    ---
     +-- README.md
 
 The Terraform modules are separated by infrastructure responsibility.
@@ -160,21 +160,21 @@ Each day's Terraform scope is being applied to the same project instead of being
 
 The first day established the direction of the project.
 
-• Defined the PROJECT RECONCILE architecture
+--- Defined the PROJECT RECONCILE architecture
 
-• Verified Terraform CLI
+--- Verified Terraform CLI
 
-• Verified AWS CLI authentication
+--- Verified AWS CLI authentication
 
-• Created the repository structure
+--- Created the repository structure
 
-• Configured the AWS provider
+--- Configured the AWS provider
 
-• Added Terraform and provider version constraints
+--- Added Terraform and provider version constraints
 
-• Parameterized the AWS region and environment
+--- Parameterized the AWS region and environment
 
-• Protected Terraform state and working files from source control
+--- Protected Terraform state and working files from source control
 
 No AWS resources were deployed.
 
@@ -184,27 +184,27 @@ The objective was to establish a clean Terraform foundation before infrastructur
 
 The second day introduced the first AWS infrastructure design.
 
-• Built a reusable VPC module
+--- Built a reusable VPC module
 
-• Defined the 10.0.0.0/16 network
+--- Defined the 10.0.0.0/16 network
 
-• Created the public subnet layer in us-east-1a
+--- Created the public subnet layer in us-east-1a
 
-• Attached an Internet Gateway
+--- Attached an Internet Gateway
 
-• Configured the default 0.0.0.0/0 route
+--- Configured the default 0.0.0.0/0 route
 
-• Associated the route table with the public subnet
+--- Associated the route table with the public subnet
 
-• Built the S3 state storage module
+--- Built the S3 state storage module
 
-• Enabled S3 versioning
+--- Enabled S3 versioning
 
-• Enabled AES256 server side encryption
+--- Enabled AES256 server side encryption
 
-• Blocked public access to the state bucket
+--- Blocked public access to the state bucket
 
-• Exposed infrastructure outputs for downstream modules
+--- Exposed infrastructure outputs for downstream modules
 
 Terraform produced the following plan:
 
@@ -218,21 +218,21 @@ The plan was reviewed as infrastructure intent before execution.
 
 Day 03 moved PROJECT RECONCILE from planning to real AWS deployment.
 
-• Created the EC2 Security Group
+--- Created the EC2 Security Group
 
-• Restricted SSH to the configured operator IP
+--- Restricted SSH to the configured operator IP
 
-• Created the EC2 IAM role
+--- Created the EC2 IAM role
 
-• Created the IAM instance profile
+--- Created the IAM instance profile
 
-• Attached AmazonSSMManagedInstanceCore
+--- Attached AmazonSSMManagedInstanceCore
 
-• Added AWS Systems Manager as an alternative management path
+--- Added AWS Systems Manager as an alternative management path
 
-• Created the EC2 module
+--- Created the EC2 module
 
-• Deployed Amazon Linux 2023
+--- Deployed Amazon Linux 2023
 
 The first terraform apply failed.
 
@@ -260,15 +260,15 @@ The next stage focuses on Terraform state as an infrastructure control component
 
 Planned work includes:
 
-• Move the project to remote Terraform state
+--- Move the project to remote Terraform state
 
-• Configure the S3 backend
+--- Configure the S3 backend
 
-• Introduce state locking
+--- Introduce state locking
 
-• Verify state consistency
+--- Verify state consistency
 
-• Test concurrent execution protection
+--- Test concurrent execution protection
 
 The state layer is particularly important to PROJECT RECONCILE because drift detection depends on the relationship between Terraform configuration, Terraform state and actual AWS infrastructure.
 
@@ -321,21 +321,21 @@ Out of Band Change -> Detect Drift -> Preserve Evidence -> Evaluate Policy -> Ap
 
 Security controls are being included in the Terraform design from the beginning.
 
-• SSH is restricted to the configured operator IP
+--- SSH is restricted to the configured operator IP
 
-• Port 22 is not exposed to 0.0.0.0/0
+--- Port 22 is not exposed to 0.0.0.0/0
 
-• AWS Systems Manager provides an alternative management path
+--- AWS Systems Manager provides an alternative management path
 
-• EC2 permissions are assigned through an IAM instance role
+--- EC2 permissions are assigned through an IAM instance role
 
-• Terraform state storage uses versioning
+--- Terraform state storage uses versioning
 
-• Server side encryption uses AES256
+--- Server side encryption uses AES256
 
-• Public access to the state bucket is blocked
+--- Public access to the state bucket is blocked
 
-• Terraform state files are excluded from source control
+--- Terraform state files are excluded from source control
 
 ## Project Status
 
