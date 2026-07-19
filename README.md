@@ -1,23 +1,30 @@
 # PROJECT RECONCILE
 
-### Detect → Preserve Evidence → Evaluate → Remediate → Verify
+### Infrastructure Drift Detection & Controlled Remediation Platform
 
-**Infrastructure Drift Detection & Controlled Remediation Platform**
+![Terraform](https://img.shields.io/badge/Terraform-1.x-7B42BC?logo=terraform&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-Cloud-FF9900?logo=amazonaws&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-Automation-2088FF?logo=githubactions&logoColor=white)
+![OPA](https://img.shields.io/badge/Open_Policy_Agent-OPA-7D9199?logo=openpolicyagent&logoColor=white)
+![Rego](https://img.shields.io/badge/Rego-Policy-00A6ED)
+![License](https://img.shields.io/badge/License-MIT-green)
+PROJECT RECONCILE extends Infrastructure as Code beyond provisioning by introducing governed infrastructure reconciliation.
 
-Built using **Terraform**, **AWS**, **GitHub Actions**, **Open Policy Agent (OPA)** and **Rego**.
+PROJECT RECONCILE is a Terraform-based platform for detecting, evaluating, approving, and safely remediating infrastructure drift on AWS.
 
+**Workflow**
+
+Detect → Preserve Evidence → Evaluate → Remediate → Verify
 
 
 ## Project Highlights
 
-- Automated infrastructure drift detection
-- Policy-based evaluation using OPA and Rego
-- Approval-gated Terraform remediation
-- Least-privilege IAM for CI/CD
-- Remote Terraform state with native S3 locking
-- Evidence preservation using Terraform plan artifacts
-- End-to-end reconciliation workflow
-- Modular Terraform architecture
+- Detects infrastructure drift using Terraform plans
+- Evaluates changes against OPA policies
+- Preserves execution evidence for auditing
+- Supports approval-gated remediation
+- Verifies infrastructure after reconciliation
+- Uses reusable Terraform modules
 
 
 
