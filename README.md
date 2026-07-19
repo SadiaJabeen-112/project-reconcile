@@ -1,28 +1,63 @@
 # PROJECT RECONCILE
-PROJECT RECONCILE
 
-Detect → Preserve Evidence → Evaluate → Remediate → Verify
+### Detect → Preserve Evidence → Evaluate → Remediate → Verify
 
-Infrastructure Drift Detection &
-Controlled Remediation Platform
+**Infrastructure Drift Detection & Controlled Remediation Platform**
 
-Built with Terraform, AWS, GitHub Actions, Open Policy Agent (OPA), and Rego.
+Built using **Terraform**, **AWS**, **GitHub Actions**, **Open Policy Agent (OPA)** and **Rego**.
 
-------------------------------------------------------------
 
-Project Highlights
 
-Technology Stack
+## Project Highlights
 
-Architecture
+- Automated infrastructure drift detection
+- Policy-based evaluation using OPA and Rego
+- Approval-gated Terraform remediation
+- Least-privilege IAM for CI/CD
+- Remote Terraform state with native S3 locking
+- Evidence preservation using Terraform plan artifacts
+- End-to-end reconciliation workflow
+- Modular Terraform architecture
 
-Project Metrics
 
-Quick Navigation
 
-Executive Summary
+## Technology Stack
 
-------------------------------------------------------------
+| Category | Technology |
+|----------|------------|
+| Cloud | AWS |
+| Infrastructure as Code | Terraform |
+| CI/CD | GitHub Actions |
+| Policy Engine | OPA + Rego |
+| State Backend | Amazon S3 |
+| Compute | Amazon EC2 |
+| Security | IAM, Systems Manager |
+
+
+
+## Project Metrics
+
+| Metric | Value |
+|---------|------:|
+| Terraform Modules | 5 |
+| AWS Services | 8+ |
+| GitHub Workflows | 2 |
+| Reconciliation Stages | 5 |
+| Policy Engine | OPA |
+| State Backend | Amazon S3 |
+
+
+
+## Repository Navigation
+
+- Architecture
+- Project Workflow
+- Build Journey
+- Current AWS Infrastructure
+- Security
+- Troubleshooting
+- Engineering Decisions
+- Roadmap
 
 ### Terraform Drift Detection and Controlled Remediation on AWS
 
