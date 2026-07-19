@@ -71,34 +71,41 @@ PROJECT RECONCILE works with three views of infrastructure.
 Drift shows up the moment these three views stop agreeing with each other.
 
 ## Repository Structure
- "Modules are separated...
-project-reconcile/
-main.tf
-variables.tf
-outputs.tf
-providers.tf
-modules/
-vpc/
-s3/
-security_group/
-iam/
-ec2/
-opa/
-policies/
-scripts/
-.github/
-workflows/
-docs/
-images/
-day-01/
-day-02/
-day-03/
-day-04/
-day-05/
-day-06/
-day-07/
-README.md
- "Modules are separated...
+
+    project-reconcile/
+      main.tf
+      variables.tf
+      outputs.tf
+      providers.tf
+
+      modules/
+        vpc/
+        s3/
+        security_group/
+        iam/
+        ec2/
+
+      opa/
+        policies/
+
+      scripts/
+
+      .github/
+        workflows/
+
+      docs/
+        images/
+        day-01/
+        day-02/
+        day-03/
+        day-04/
+        day-05/
+        day-06/
+        day-07/
+
+      README.md
+
+Modules are separated by infrastructure responsibility, not by convenience.
 ## TerraWeek Build Journey
 
 PROJECT RECONCILE was built across the seven days of TerraWeek. Each day's scope landed on the same project instead of living in an isolated lab.
