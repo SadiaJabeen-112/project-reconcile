@@ -33,6 +33,7 @@ resource "aws_route_table" "public" {
   tags = {
     Name        = "${var.project}-${var.environment}-public-rt"
     Environment = var.environment
+    TestDrift   = "day7-final-attempt"
   }
 }
 resource "aws_route_table_association" "public" {
