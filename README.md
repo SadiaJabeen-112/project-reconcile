@@ -71,33 +71,34 @@ PROJECT RECONCILE works with three views of infrastructure.
 Drift shows up the moment these three views stop agreeing with each other.
 
 ## Repository Structure
+ "Modules are separated...
 project-reconcile/
-â”œâ”€â”€ main.tf
-â”œâ”€â”€ variables.tf
-â”œâ”€â”€ outputs.tf
-â”œâ”€â”€ providers.tf
-â”œâ”€â”€ modules/
-â”‚   â”œâ”€â”€ vpc/
-â”‚   â”œâ”€â”€ s3/
-â”‚   â”œâ”€â”€ security_group/
-â”‚   â”œâ”€â”€ iam/
-â”‚   â””â”€â”€ ec2/
-â”œâ”€â”€ opa/
-â”‚   â””â”€â”€ policies/
-â”œâ”€â”€ scripts/
-â”œâ”€â”€ .github/
-â”‚   â””â”€â”€ workflows/
-â”œâ”€â”€ docs/
-â”‚   â”œâ”€â”€ images/
-â”‚   â”œâ”€â”€ day-01/
-â”‚   â”œâ”€â”€ day-02/
-â”‚   â”œâ”€â”€ day-03/
-â”‚   â”œâ”€â”€ day-04/
-â”‚   â”œâ”€â”€ day-05/
-â”‚   â”œâ”€â”€ day-06/
-â”‚   â””â”€â”€ day-07/
-â””â”€â”€ README.md
-
+main.tf
+variables.tf
+outputs.tf
+providers.tf
+modules/
+vpc/
+s3/
+security_group/
+iam/
+ec2/
+opa/
+policies/
+scripts/
+.github/
+workflows/
+docs/
+images/
+day-01/
+day-02/
+day-03/
+day-04/
+day-05/
+day-06/
+day-07/
+README.md
+ "Modules are separated...
 ## TerraWeek Build Journey
 
 PROJECT RECONCILE was built across the seven days of TerraWeek. Each day's scope landed on the same project instead of living in an isolated lab.
