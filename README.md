@@ -1,4 +1,28 @@
 # PROJECT RECONCILE
+PROJECT RECONCILE
+
+Detect → Preserve Evidence → Evaluate → Remediate → Verify
+
+Infrastructure Drift Detection &
+Controlled Remediation Platform
+
+Built with Terraform, AWS, GitHub Actions, Open Policy Agent (OPA), and Rego.
+
+------------------------------------------------------------
+
+Project Highlights
+
+Technology Stack
+
+Architecture
+
+Project Metrics
+
+Quick Navigation
+
+Executive Summary
+
+------------------------------------------------------------
 
 ### Terraform Drift Detection and Controlled Remediation on AWS
 
