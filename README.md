@@ -100,14 +100,13 @@ Terraform defines what infrastructure should look like. AWS runs what actually e
 
 A Security Group rule gets changed manually. A route gets updated during troubleshooting. An EC2 configuration gets modified directly in the console. The infrastructure keeps running, but the environment no longer matches what's stored in source control.
 
-Detect to Preserve Evidence to Evaluate to Remediate to Verify
+Detect → Preserve Evidence → Evaluate → Remediate → Verify
 
 ## Architecture
 
 ![PROJECT RECONCILE Architecture](docs/images/project-reconcile-architecture.jpeg)
 
-This diagram is the architecture actually built across TerraWeek. The AWS infrastructure baseline, drift detection, evidence capture, policy evaluation, and controlled remediation are all live, and every stage has been verified end to end in a real run, not just designed on paper.
-
+This diagram illustrates the end-to-end reconciliation workflow implemented in PROJECT RECONCILE. It shows how Terraform configuration, AWS infrastructure, GitHub Actions, and OPA work together to detect infrastructure drift, evaluate policy compliance, preserve execution evidence, and perform controlled remediation.
 ## The Problem
 
 Infrastructure changes outside Terraform more often than most teams would like to admit.
