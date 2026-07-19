@@ -59,6 +59,28 @@ Built using **Terraform**, **AWS**, **GitHub Actions**, **Open Policy Agent (OPA
 - Engineering Decisions
 - Roadmap
 
+## Why PROJECT RECONCILE?
+
+Most Infrastructure as Code projects focus on provisioning resources.
+
+PROJECT RECONCILE focuses on what happens after deployment.
+
+As infrastructure evolves, manual changes, emergency fixes, and operational updates can cause the deployed environment to drift away from the Terraform configuration. Left unchecked, this drift reduces consistency, complicates troubleshooting, and increases operational risk.
+
+PROJECT RECONCILE implements a controlled reconciliation workflow that:
+
+- Detects infrastructure drift using Terraform plan
+- Preserves execution evidence for auditing
+- Evaluates detected changes against policy using OPA
+- Requires approval before high-risk remediation
+- Verifies infrastructure after remediation
+
+Instead of treating `terraform apply` as the end of automation, PROJECT RECONCILE treats it as one stage in a governed infrastructure lifecycle.
+
+The objective is not simply to automate infrastructure changes.
+
+The objective is to automate them safely, transparently, and repeatably.
+
 ### Terraform Drift Detection and Controlled Remediation on AWS
 
 PROJECT RECONCILE demonstrates how infrastructure drift can be detected, evaluated, approved, and remediated safely using Terraform, GitHub Actions, AWS, and Open Policy Agent.
